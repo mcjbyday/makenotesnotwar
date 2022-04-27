@@ -1,5 +1,4 @@
 const notes = require('express').Router();
-// const { readFromFile } = require('../helpers/fsUtils');
 const fs = require('fs');
 const path = require('path');
 const notedata = require('../db/db.json')
@@ -13,8 +12,8 @@ notes.get('/', (req, res) => {
 
 // POST Route for a new note
 notes.post('/', (req, res) => {
-  console.info(`${req.method} request received to add a note`);
-  console.log(req.body);
+//   console.info(`${req.method} request received to add a note`);
+//   console.log(req.body);
 
   const { title, text } = req.body;
 
@@ -45,5 +44,29 @@ notes.post('/', (req, res) => {
     res.json('Error in adding note');
   }
 });
+
+// DELETE Route for a specific note
+notes.delete('/:note_uuid', (req, res) => {
+    
+    const noteId = req.params.note_uuid;
+
+    if (noteId) {
+        const notesLessNoteId = notedata.filter((note) => note.note_uuid !== noteId);
+        const fullNotes = JSON.stringify(notesLessNoteId, null, 2);
+    
+        fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) => 
+            err
+            ? console.error(err)
+            : console.log(
+                `Item ${noteId} has been deleted`
+                )
+            )
+            res.json(`Note deleted successfully`);
+    }
+    else {
+        res.json('Error in deleting note');
+    }
+});
+
 
 module.exports = notes;
