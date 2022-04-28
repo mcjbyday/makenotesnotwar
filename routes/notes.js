@@ -73,9 +73,9 @@ notes.delete('/notes/:id', (req, res) => {
         
         console.log(noteId);
         console.log( notedata)
-        const notesLessNoteId = notedata.filter((note) => note.id !== noteId);
-        console.log(notesLessNoteId);
-        const fullNotes = JSON.stringify(notesLessNoteId, null, 2);
+        const notedata = notedata.filter((note) => note.id !== noteId);
+        console.log(notedata);
+        const fullNotes = JSON.stringify(notedata, null, 2);
         // console.log(fullNotes);
         fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) => 
             err
@@ -85,7 +85,7 @@ notes.delete('/notes/:id', (req, res) => {
                 )
             )
         // res.json(`Note deleted successfully`);
-        res.json(notesLessNoteId);
+        res.json(notedata);
         //send updated object looping over and displaying
     }
     else {
