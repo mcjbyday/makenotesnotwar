@@ -1,7 +1,7 @@
 const notes = require('express').Router();
 const fs = require('fs');
 const path = require('path');
-const notedata = require('../db/db.json')
+let notedata = require('../db/db.json')
 const uuid = require('../helpers/uuid');
 
 // GET Route for retrieving all the notes
@@ -13,6 +13,7 @@ notes.get('/notes', (req, res) => {
             console.error(err)
         }
         else {
+            notedata = noteDB;
             res.send(noteDB);
         }
     });
@@ -73,25 +74,24 @@ notes.delete('/notes/:id', (req, res) => {
         
         console.log(noteId);
         console.log( notedata)
-        const notedata = notedata.filter((note) => note.id !== noteId);
+        const notesLessNoteID = notedata.filter((note) => note.id !== noteId);
         console.log(notedata);
-        const fullNotes = JSON.stringify(notedata, null, 2);
+        const fullNotes = JSON.stringify(notesLessNoteID, null, 2);
         // console.log(fullNotes);
-        fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) => 
-            err
-            ? console.error(err)
-            : console.log(
-                `Item ${noteId} has been deleted`
-                )
-            )
+        fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) =>  {
+            if (err) {
+              console.error(err) 
+              res.json(err)
+              }
+            else {
+              console.log(`Item ${noteId} has been deleted`);
+              res.json(notesLessNoteID);
+            }
+          });
+      }
         // res.json(`Note deleted successfully`);
-        res.json(notedata);
         //send updated object looping over and displaying
-    }
-    else {
-        res.json('Error in deleting note');
-    }
-});
+  });
 
 
 module.exports = notes;
