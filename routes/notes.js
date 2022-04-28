@@ -61,7 +61,7 @@ notes.get('/notes/:id', (req, res) => {
     const noteId = req.params.id;
     
     console.info(`${req} request received for notes`)    
-    const result = notedata.filter((note) => note.id === noteId);
+    let result = notedata.filter((note) => note.id === noteId);
     res.json(result);
   });
 
@@ -74,7 +74,7 @@ notes.delete('/notes/:id', (req, res) => {
         
         console.log(noteId);
         console.log( notedata)
-        const notesLessNoteID = notedata.filter((note) => note.id !== noteId);
+        let notesLessNoteID = notedata.filter((note) => note.id !== noteId);
         console.log(notedata);
         const fullNotes = JSON.stringify(notesLessNoteID, null, 2);
         // console.log(fullNotes);
