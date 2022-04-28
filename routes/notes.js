@@ -13,7 +13,7 @@ notes.get('/notes', (req, res) => {
             console.error(err)
         }
         else {
-            notedata = noteDB;
+            notedata = JSON.parse(noteDB);
             res.send(noteDB);
         }
     });
