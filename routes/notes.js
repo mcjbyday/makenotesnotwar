@@ -70,9 +70,13 @@ notes.delete('/notes/:id', (req, res) => {
     const noteId = req.params.id;
 
     if (noteId) {
+        
+        console.log(noteId);
+        console.log( notedata)
         const notesLessNoteId = notedata.filter((note) => note.id !== noteId);
+        console.log(notesLessNoteId);
         const fullNotes = JSON.stringify(notesLessNoteId, null, 2);
-    
+        // console.log(fullNotes);
         fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) => 
             err
             ? console.error(err)
