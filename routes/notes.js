@@ -5,13 +5,22 @@ const notedata = require('../db/db.json')
 const uuid = require('../helpers/uuid');
 
 // GET Route for retrieving all the notes
-notes.get('/', (req, res) => {
-  console.info(`${req.method} request received for notes`);
-  res.json(notedata);
+notes.get('/notes', (req, res) => {
+    console.info(`${req.method} request received for notes`);
+
+    fs.readFile(path.join(__dirname, '../db/db.json'), 'utf8', (err, noteDB) => {
+        if (err) {
+            console.error(err)
+        }
+        else {
+            res.send(noteDB);
+        }
+    });
 });
 
+
 // POST Route for a new note
-notes.post('/', (req, res) => {
+notes.post('/notes', (req, res) => {
 //   console.info(`${req.method} request received to add a note`);
 //   console.log(req.body);
 
@@ -21,7 +30,7 @@ notes.post('/', (req, res) => {
     const newNote = {
       title,
       text,
-      note_uuid: uuid(),  
+      id: uuid(),  
     };
     
     notedata.push(newNote);
@@ -45,13 +54,23 @@ notes.post('/', (req, res) => {
   }
 });
 
-// DELETE Route for a specific note
-notes.delete('/:note_uuid', (req, res) => {
+
+// GET Route for a specific note
+notes.get('/notes/:id', (req, res) => {
+    const noteId = req.params.id;
     
-    const noteId = req.params.note_uuid;
+    console.info(`${req} request received for notes`)    
+    const result = notedata.filter((note) => note.id === noteId);
+    res.json(result);
+  });
+
+// DELETE Route for a specific note
+notes.delete('/notes/:id', (req, res) => {
+    
+    const noteId = req.params.id;
 
     if (noteId) {
-        const notesLessNoteId = notedata.filter((note) => note.note_uuid !== noteId);
+        const notesLessNoteId = notedata.filter((note) => note.id !== noteId);
         const fullNotes = JSON.stringify(notesLessNoteId, null, 2);
     
         fs.writeFile(path.join(__dirname, '../db/db.json'), fullNotes, (err) => 
@@ -61,7 +80,9 @@ notes.delete('/:note_uuid', (req, res) => {
                 `Item ${noteId} has been deleted`
                 )
             )
-            res.json(`Note deleted successfully`);
+        // res.json(`Note deleted successfully`);
+        res.json(notesLessNoteId);
+        //send updated object looping over and displaying
     }
     else {
         res.json('Error in deleting note');
