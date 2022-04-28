@@ -16,10 +16,9 @@
 
 -[Usage](#project-usage)
 
--[References](#project-ref)
-
 -[Questions/Contact](#project-contact)
 
+<!-- -[References](#project-ref) -->
 
 <h2 id="project-desc">Description</h2>
 
@@ -27,16 +26,14 @@
 
 <h2 id="project-live">See it in action!</h2>
 
-
-
-*Note: Output files will be written to the ./dist directory.*
+[See it live]()
 
 <h2 id="project-captures">Screen captures</h2>
 
 | Image | Description |
 | --- | ----------- |
-|  |  |
-|  |   |
+|  ![screen capture](./public/assets/images/screencapture.gif) | Application in use |
+
 
 <h2 id="project-tech">Technology</h2>
 
@@ -60,11 +57,11 @@ Recommended prerequisites include node.js version 16.2.0 or later. To execute th
 
 <p style='text-align: right;'><a href="#project-title">Back to Top</a></p>
 
-<h2 id="project-ref">References</h2>
+<!-- <h2 id="project-ref">References</h2> -->
 
 
 
-<p style='text-align: right;'><a href="#project-title">Back to Top</a></p>
+<!-- <p style='text-align: right;'><a href="#project-title">Back to Top</a></p> -->
 
 <h2 id="project-contact">Questions / Contact</h2>
 
